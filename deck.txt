@@ -1,0 +1,12 @@
+Pictionary
+==========
+Categorias:
+Persona/Lugar/Animal, Objeto, Accion, Difícil, Todos Juegan
+Tarjetas:
+>Pinocho,Silla de ruedas, Cavar, Poco espacio, Juego informatico
+Pulpo, Pétalo, >Oir, >Lourdes, Pavimento
+>china, matorral, apoyar, >malo, quemadura del sol
+cabaña, >zanco, >aterrizar forzosamente, tridimensional, marcapagina
+>aquilibrista, altavoz, hacer garabatos, >directo, salida en falso
+>avispon, queso suizo, >sudar, equipo domestico, pierna fracturada
+teatro, >chocolate, >perseguir, flojo, silbato
