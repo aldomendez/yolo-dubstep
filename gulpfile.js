@@ -51,6 +51,8 @@ gulp.task('jasmine', ['compile-test'], function () {
     .pipe(jasmine());
 });
 
+// Las siguientes funciones salieron de esta direccion:
+// http://rhumaric.com/2014/01/livereload-magic-gulp-style/
 var startLiveReload = function () {
   lr = require('tiny-lr')();
   lr.listen(35729);
