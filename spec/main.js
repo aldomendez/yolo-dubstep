@@ -8,7 +8,7 @@
   });
 
   describe('Card', function() {
-    return it("should split the elements from the Card", function() {
+    it("should split the elements from the Card", function() {
       var card;
       card = new Card(">Pinocho,Silla de ruedas, > Cavar, Poco espacio, Juego informatico");
       expect(card.personal.content).toBe("Pinocho");
@@ -21,6 +21,9 @@
       expect(card.dificil.playAll).toBe(false);
       expect(card.todos.content).toBe("Juego informatico");
       return expect(card.todos.playAll).toBe(false);
+    });
+    return it("should parse an element", function() {
+      return expect(true).toBe(true);
     });
   });
 

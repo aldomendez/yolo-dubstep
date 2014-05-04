@@ -77,16 +77,26 @@ var notifyLiveReload = function (event) {
 
 
 gulp.task('watch', function () {
+  // Activa el web-server
   startExpress();
+  // Activa el live-reload server
   startLiveReload();
-  var watcher = gulp.watch('src/coffee/*.coffee', ['coffee']);
-  watcher.on('change', function(event) {
+  var coffeeWatcher = gulp.watch('src/coffee/*.coffee', ['coffee']);
+  coffeeWatcher.on('change', function(event) {
     console.log('File '+event.path+' was '+event.type+', running "coffee" tasks...');
+    // Notifica el cambio en algun archivo
     notifyLiveReload(event);
   });
-  var watcher = gulp.watch('src/spec/*.coffee', ['compile-test']);
-  watcher.on('change', function(event) {
+  var indexWatcher = gulp.watch('index.html');
+  indexWatcher.on('change', function(event) {
+    console.log('File '+event.path+' was '+event.type+', reloading...');
+    // Notifica el cambio en algun archivo
+    notifyLiveReload(event);
+  });
+  var jasmineWatcher = gulp.watch('src/spec/*.coffee', ['compile-test']);
+  jasmineWatcher.on('change', function(event) {
     console.log('File '+event.path+' was '+event.type+', running "jasmine" tasks...');
+    // Notifica el cambio en algun archivo
     notifyLiveReload(event);
   });
 })
