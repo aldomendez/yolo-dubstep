@@ -2,7 +2,7 @@
 
 <html>
 <head>
-  <title>main.js</title>
+  <title>main.coffee</title>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
   <link rel="stylesheet" media="all" href="docco.css" />
@@ -15,7 +15,7 @@
         
           <li id="title">
               <div class="annotation">
-                  <h1>main.js</h1>
+                  <h1>main.coffee</h1>
               </div>
           </li>
         
@@ -30,164 +30,87 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-  <span class="hljs-keyword">var</span> Ajax, Card, Deck, Friend;
+            <div class="content"><div class='highlight'><pre><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Deck</span></span>
+  <span class="hljs-attribute">constructor</span>: <span class="hljs-function"><span class="hljs-params">(<span class="hljs-property">@raw</span>)</span> -&gt;</span>
+    <span class="hljs-property">@cards</span> = []
+    preCards = <span class="hljs-property">@raw</span>.split <span class="hljs-string">'\n'</span>
+    <span class="hljs-keyword">for</span> line <span class="hljs-keyword">in</span> preCards <span class="hljs-keyword">when</span> line.trim().charAt(<span class="hljs-number">0</span>) <span class="hljs-keyword">isnt</span> <span class="hljs-string">':'</span>
+      <span class="hljs-property">@addCard</span> line
+  <span class="hljs-attribute">addCard</span>:<span class="hljs-function"><span class="hljs-params">(line)</span>-&gt;</span>
+    prospect = line.split <span class="hljs-string">','</span>
+    <span class="hljs-keyword">if</span> prospect.length <span class="hljs-keyword">is</span> <span class="hljs-number">5</span>
+      <span class="hljs-property">@cards</span>.push <span class="hljs-keyword">new</span> Card prospect
 
-  Deck = (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Deck</span><span class="hljs-params">(raw)</span> {</span>
-      <span class="hljs-keyword">var</span> line, preCards, _i, _len;
-      <span class="hljs-keyword">this</span>.raw = raw;
-      <span class="hljs-keyword">this</span>.cards = [];
-      preCards = <span class="hljs-keyword">this</span>.raw.split(<span class="hljs-string">'\n'</span>);
-      <span class="hljs-keyword">for</span> (_i = <span class="hljs-number">0</span>, _len = preCards.length; _i &lt; _len; _i++) {
-        line = preCards[_i];
-        <span class="hljs-keyword">if</span> (line.trim().charAt(<span class="hljs-number">0</span>) !== <span class="hljs-string">':'</span>) {
-          <span class="hljs-keyword">this</span>.addCard(line);
-        }
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Card</span></span>
+  <span class="hljs-attribute">constructor</span>: <span class="hljs-function"><span class="hljs-params">(<span class="hljs-property">@raw</span>)</span> -&gt;</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Inicializamos para poderle agregar datos despues</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    sp = {}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Sacamos los parametros que vamos a usar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">if</span> <span class="hljs-keyword">typeof</span>(<span class="hljs-property">@raw</span>) <span class="hljs-keyword">is</span> <span class="hljs-string">'object'</span> 
+      <span class="hljs-keyword">if</span> <span class="hljs-property">@raw</span>.length <span class="hljs-keyword">is</span> <span class="hljs-number">5</span>
+        [sp.personal,sp.objeto,sp.accion,sp.dificil,sp.todos] = <span class="hljs-property">@raw</span>
+      <span class="hljs-keyword">else</span>
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> Error <span class="hljs-string">"Card elements mismatch (<span class="hljs-subst">#{<span class="hljs-property">@raw</span>.length}</span>) should be (5)"</span>
+    <span class="hljs-keyword">else</span>
+      [sp.personal,sp.objeto,sp.accion,sp.dificil,sp.todos] = <span class="hljs-property">@raw</span>.split <span class="hljs-string">','</span>
+    <span class="hljs-keyword">for</span> k, v <span class="hljs-keyword">of</span> sp
+      @[k] = <span class="hljs-property">@parseElement</span> v
+  <span class="hljs-attribute">parseElement</span>:<span class="hljs-function"><span class="hljs-params">(el)</span>-&gt;</span>
+    el = el.trim()
+    <span class="hljs-keyword">if</span> el[<span class="hljs-number">0</span>] <span class="hljs-keyword">is</span> <span class="hljs-string">"&gt;"</span>
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attribute">content</span>:(el.slice <span class="hljs-number">1</span>).trim()
+        <span class="hljs-attribute">playAll</span>:<span class="hljs-literal">true</span>
       }
-    }
-
-    Deck.prototype.addCard = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(line)</span> {</span>
-      <span class="hljs-keyword">var</span> prospect;
-      prospect = line.split(<span class="hljs-string">','</span>);
-      <span class="hljs-keyword">if</span> (prospect.length === <span class="hljs-number">5</span>) {
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.cards.push(<span class="hljs-keyword">new</span> Card(prospect));
+    <span class="hljs-keyword">else</span>
+      <span class="hljs-keyword">return</span> {
+        <span class="hljs-attribute">content</span>:el.trim()
+        <span class="hljs-attribute">playAll</span>:<span class="hljs-literal">false</span>
       }
-    };
 
-    <span class="hljs-keyword">return</span> Deck;
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Friend</span></span>
+  <span class="hljs-attribute">constructor</span>: <span class="hljs-function"><span class="hljs-params">(<span class="hljs-property">@name</span> = <span class="hljs-string">'invitado'</span>)</span> -&gt;</span>
+    <span class="hljs-property">@points</span> = <span class="hljs-number">0</span>
+    <span class="hljs-property">@wins</span> = <span class="hljs-number">0</span>
+    <span class="hljs-property">@bestTime</span> = <span class="hljs-number">0</span> <span class="hljs-comment"># en segundos</span>
+  <span class="hljs-attribute">won</span>:<span class="hljs-function"><span class="hljs-params">(points, time)</span>-&gt;</span>
+    <span class="hljs-property">@points</span> += points
+    <span class="hljs-property">@wins</span>++
+    <span class="hljs-keyword">if</span> time &gt; <span class="hljs-property">@bestTime</span>
+      <span class="hljs-property">@bestTime</span> = time
+  
 
-  })();
 
-  Card = (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Card</span><span class="hljs-params">(raw)</span> {</span>
-      <span class="hljs-keyword">var</span> k, sp, v, _ref, _ref1;
-      <span class="hljs-keyword">this</span>.raw = raw;
-      sp = {};
-      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> <span class="hljs-keyword">this</span>.raw === <span class="hljs-string">'object'</span>) {
-        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.raw.length === <span class="hljs-number">5</span>) {
-          _ref = <span class="hljs-keyword">this</span>.raw, sp.personal = _ref[<span class="hljs-number">0</span>], sp.objeto = _ref[<span class="hljs-number">1</span>], sp.accion = _ref[<span class="hljs-number">2</span>], sp.dificil = _ref[<span class="hljs-number">3</span>], sp.todos = _ref[<span class="hljs-number">4</span>];
-        } <span class="hljs-keyword">else</span> {
-          <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">Error</span>(<span class="hljs-string">"Card elements mismatch ("</span> + <span class="hljs-keyword">this</span>.raw.length + <span class="hljs-string">") should be (5)"</span>);
-        }
-      } <span class="hljs-keyword">else</span> {
-        _ref1 = <span class="hljs-keyword">this</span>.raw.split(<span class="hljs-string">','</span>), sp.personal = _ref1[<span class="hljs-number">0</span>], sp.objeto = _ref1[<span class="hljs-number">1</span>], sp.accion = _ref1[<span class="hljs-number">2</span>], sp.dificil = _ref1[<span class="hljs-number">3</span>], sp.todos = _ref1[<span class="hljs-number">4</span>];
-      }
-      <span class="hljs-keyword">for</span> (k <span class="hljs-keyword">in</span> sp) {
-        v = sp[k];
-        <span class="hljs-keyword">this</span>[k] = <span class="hljs-keyword">this</span>.parseElement(v);
-      }
-    }
-
-    Card.prototype.parseElement = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(el)</span> {</span>
-      el = el.trim();
-      <span class="hljs-keyword">if</span> (el[<span class="hljs-number">0</span>] === <span class="hljs-string">"&gt;"</span>) {
-        <span class="hljs-keyword">return</span> {
-          content: (el.slice(<span class="hljs-number">1</span>)).trim(),
-          playAll: <span class="hljs-literal">true</span>
-        };
-      } <span class="hljs-keyword">else</span> {
-        <span class="hljs-keyword">return</span> {
-          content: el.trim(),
-          playAll: <span class="hljs-literal">false</span>
-        };
-      }
-    };
-
-    <span class="hljs-keyword">return</span> Card;
-
-  })();
-
-  Friend = (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Friend</span><span class="hljs-params">(name)</span> {</span>
-      <span class="hljs-keyword">this</span>.name = name != <span class="hljs-literal">null</span> ? name : <span class="hljs-string">'invitado'</span>;
-      <span class="hljs-keyword">this</span>.points = <span class="hljs-number">0</span>;
-      <span class="hljs-keyword">this</span>.wins = <span class="hljs-number">0</span>;
-      <span class="hljs-keyword">this</span>.bestTime = <span class="hljs-number">0</span>;
-    }
-
-    Friend.prototype.won = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(points, time)</span> {</span>
-      <span class="hljs-keyword">this</span>.points += points;
-      <span class="hljs-keyword">this</span>.wins++;
-      <span class="hljs-keyword">if</span> (time &gt; <span class="hljs-keyword">this</span>.bestTime) {
-        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.bestTime = time;
-      }
-    };
-
-    <span class="hljs-keyword">return</span> Friend;
-
-  })();
-
-  Ajax = (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Ajax</span><span class="hljs-params">()</span> {</span>
-      <span class="hljs-keyword">this</span>;
-    }
-
-    Ajax.prototype.get = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, onload, onerror)</span> {</span>
-      <span class="hljs-keyword">var</span> request;
-      <span class="hljs-keyword">this</span>.url = url;
-      console.log(<span class="hljs-string">'tengo el control'</span>);
-      request = <span class="hljs-keyword">new</span> XMLHttpRequest;
-      request.open(<span class="hljs-string">'GET'</span>, <span class="hljs-keyword">this</span>.url, <span class="hljs-literal">true</span>);
-      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-        <span class="hljs-keyword">var</span> _ref;
-        console.log(<span class="hljs-string">" tengo el estatus : "</span> + request.status);
-        <span class="hljs-keyword">if</span> ((<span class="hljs-number">199</span> &gt;= (_ref = request.status) &amp;&amp; _ref &gt;= <span class="hljs-number">400</span>)) {
-          console.log(<span class="hljs-string">'Dentro del IF'</span>);
-          <span class="hljs-keyword">this</span>.resp = request.responseText;
-          console.log(<span class="hljs-keyword">this</span>.resp);
-          <span class="hljs-keyword">return</span> onload(<span class="hljs-keyword">this</span>.resp);
-        }
-      };
-      <span class="hljs-keyword">if</span> (onerror != <span class="hljs-literal">null</span>) {
-        request.onerror = onerror;
-      }
-      request.send();
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
-    };
-
-    Ajax.prototype.json = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, onload, onerror)</span> {</span>
-      <span class="hljs-keyword">var</span> request;
-      <span class="hljs-keyword">this</span>.url = url;
-      request = <span class="hljs-keyword">new</span> XMLHttpRequest;
-      request.open(<span class="hljs-string">'GET'</span>, <span class="hljs-keyword">this</span>.url, <span class="hljs-literal">true</span>);
-      request.onload = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-        <span class="hljs-keyword">var</span> _ref;
-        <span class="hljs-keyword">if</span> ((<span class="hljs-number">200</span> &gt;= (_ref = request.status) &amp;&amp; _ref &gt;= <span class="hljs-number">400</span>)) {
-          <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.data = <span class="hljs-built_in">JSON</span>.parse(request.responseText);
-        }
-      };
-      <span class="hljs-keyword">if</span> (onerror != <span class="hljs-literal">null</span>) {
-        request.onerror = onerror;
-      }
-      request.send();
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
-    };
-
-    Ajax.prototype.post = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(url, data)</span> {</span>
-      <span class="hljs-keyword">var</span> request;
-      <span class="hljs-keyword">this</span>.url = url;
-      <span class="hljs-keyword">this</span>.data = data;
-      request = <span class="hljs-keyword">new</span> XMLHttpRequest;
-      request.open(<span class="hljs-string">"POST"</span>, <span class="hljs-keyword">this</span>.url, <span class="hljs-literal">true</span>);
-      request.setRequestHeader(<span class="hljs-string">'Content-Type'</span>, <span class="hljs-string">'application/x-www-form-urlencoded; charset=UTF-8'</span>);
-      request.send(<span class="hljs-keyword">this</span>.data);
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>;
-    };
-
-    <span class="hljs-keyword">return</span> Ajax;
-
-  })();
-
-  window.Friend = Friend;
-
-  window.Ajax = Ajax;
-
-  window.Deck = Deck;
-
-  window.Card = Card;
-
-}).call(<span class="hljs-keyword">this</span>);</pre></div></div>
+<span class="hljs-built_in">window</span>.Friend = Friend
+<span class="hljs-built_in">window</span>.Deck = Deck
+<span class="hljs-built_in">window</span>.Card = Card</pre></div></div>
             
         </li>
         

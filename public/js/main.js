@@ -1,5 +1,5 @@
 (function() {
-  var Ajax, Card, Deck, Friend;
+  var Card, Deck, Friend;
 
   Deck = (function() {
     function Deck(raw) {
@@ -86,70 +86,7 @@
 
   })();
 
-  Ajax = (function() {
-    function Ajax() {
-      this;
-    }
-
-    Ajax.prototype.get = function(url, onload, onerror) {
-      var request;
-      this.url = url;
-      console.log('tengo el control');
-      request = new XMLHttpRequest;
-      request.open('GET', this.url, true);
-      request.onload = function() {
-        var _ref;
-        console.log(" tengo el estatus : " + request.status);
-        if ((199 >= (_ref = request.status) && _ref >= 400)) {
-          console.log('Dentro del IF');
-          this.resp = request.responseText;
-          console.log(this.resp);
-          return onload(this.resp);
-        }
-      };
-      if (onerror != null) {
-        request.onerror = onerror;
-      }
-      request.send();
-      return this;
-    };
-
-    Ajax.prototype.json = function(url, onload, onerror) {
-      var request;
-      this.url = url;
-      request = new XMLHttpRequest;
-      request.open('GET', this.url, true);
-      request.onload = function() {
-        var _ref;
-        if ((200 >= (_ref = request.status) && _ref >= 400)) {
-          return this.data = JSON.parse(request.responseText);
-        }
-      };
-      if (onerror != null) {
-        request.onerror = onerror;
-      }
-      request.send();
-      return this;
-    };
-
-    Ajax.prototype.post = function(url, data) {
-      var request;
-      this.url = url;
-      this.data = data;
-      request = new XMLHttpRequest;
-      request.open("POST", this.url, true);
-      request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-      request.send(this.data);
-      return this;
-    };
-
-    return Ajax;
-
-  })();
-
   window.Friend = Friend;
-
-  window.Ajax = Ajax;
 
   window.Deck = Deck;
 

@@ -12,7 +12,8 @@ class Deck
 
 class Card
   constructor: (@raw) ->
-    sp = {} # Inicializamos para poderle agregar datos despues
+    # Inicializamos para poderle agregar datos despues
+    sp = {}
     # Sacamos los parametros que vamos a usar
     if typeof(@raw) is 'object' 
       if @raw.length is 5
@@ -48,46 +49,7 @@ class Friend
       @bestTime = time
   
 
-  
-class Ajax
-  constructor: () ->
-    @
-  get:(@url,onload,onerror)->
-    console.log 'tengo el control'
-    request = new XMLHttpRequest
-    request.open 'GET', @url, true
-    request.onload = ->
-      console.log " tengo el estatus : #{request.status}"
-      if 199 >= request.status >= 400
-        console.log 'Dentro del IF'
-        @resp = request.responseText
-        console.log @resp
-        onload(@resp)
-    if onerror?
-      request.onerror = onerror
-    request.send()
-    @
-  json:(@url,onload,onerror)->
-    request = new XMLHttpRequest
-    request.open 'GET', @url, true
-    request.onload = ->
-      if 200 >= request.status >= 400
-        @data = JSON.parse request.responseText
-    if onerror?
-      request.onerror = onerror
 
-    request.send()
-    @
-  post:(@url,@data)->
-    request = new XMLHttpRequest
-    request.open "POST", @url, true
-    request.setRequestHeader 'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8'
-    request.send @data
-    @
-
-
-
-window.Friend = Friend  
-window.Ajax = Ajax
+window.Friend = Friend
 window.Deck = Deck
 window.Card = Card

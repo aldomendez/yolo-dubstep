@@ -29,7 +29,7 @@ gulp.task('htmlpage', function() {
 });
 
 gulp.task('docco',function () {
-  gulp.src('./public/js/*.js')
+  gulp.src('./src/coffee/*.coffee')
     .pipe(docco())
     .pipe(gulp.dest('./docs'));
 })
