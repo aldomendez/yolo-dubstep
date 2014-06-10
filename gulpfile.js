@@ -7,6 +7,7 @@ var jasmine = require('gulp-jasmine');
 var gutil = require('gulp-util');
 var uglify = require('gulp-uglify');
 var concat = require('gulp-concat');
+var docco = require('gulp-docco');
 var lr;
 
 //JS hint task
@@ -26,6 +27,12 @@ gulp.task('htmlpage', function() {
     .pipe(minifyHTML())
     .pipe(gulp.dest(htmlDst));
 });
+
+gulp.task('docco'function () {
+  gulp.src('./public/js')
+    .pipe(docco())
+    .pipe(gulp.dest('./docs'));
+})
 
 gulp.task('js', ['coffee'],function(){
   gulp.src('./public/js/*.js')
@@ -81,18 +88,21 @@ gulp.task('watch', function () {
   startExpress();
   // Activa el live-reload server
   startLiveReload();
+
   var coffeeWatcher = gulp.watch('src/coffee/*.coffee', ['coffee']);
   coffeeWatcher.on('change', function(event) {
     console.log('File '+event.path+' was '+event.type+', running "coffee" tasks...');
     // Notifica el cambio en algun archivo
     notifyLiveReload(event);
   });
+
   var indexWatcher = gulp.watch('index.html');
   indexWatcher.on('change', function(event) {
     console.log('File '+event.path+' was '+event.type+', reloading...');
     // Notifica el cambio en algun archivo
     notifyLiveReload(event);
   });
+  
   var jasmineWatcher = gulp.watch('src/spec/*.coffee', ['compile-test']);
   jasmineWatcher.on('change', function(event) {
     console.log('File '+event.path+' was '+event.type+', running "jasmine" tasks...');

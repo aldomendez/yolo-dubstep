@@ -7,8 +7,35 @@
     });
   });
 
+  describe("Friend", function() {
+    it("should be available", function() {
+      var friend;
+      friend = new Friend('Aldo');
+      expect(friend.name).toBe('Aldo');
+      friend = new Friend;
+      return expect(friend.name).toBe('invitado');
+    });
+    return it(" can track awards", function() {
+      var friend;
+      friend = new Friend('Aldo');
+      expect(friend.points).toBe(0);
+      friend.won(300, 80);
+      expect(friend.points).toBe(300);
+      expect(friend.wins).toBe(1);
+      expect(friend.bestTime).toBe(80);
+      friend.won(300, 60);
+      expect(friend.points).toBe(600);
+      expect(friend.wins).toBe(2);
+      expect(friend.bestTime).toBe(80);
+      friend.won(900, 160);
+      expect(friend.points).toBe(1500);
+      expect(friend.wins).toBe(3);
+      return expect(friend.bestTime).toBe(160);
+    });
+  });
+
   describe('Card', function() {
-    it("should split the elements from the Card", function() {
+    it("should accepts a string as a card", function() {
       var card;
       card = new Card(">Pinocho,Silla de ruedas, > Cavar, Poco espacio, Juego informatico");
       expect(card.personal.content).toBe("Pinocho");
@@ -22,8 +49,35 @@
       expect(card.todos.content).toBe("Juego informatico");
       return expect(card.todos.playAll).toBe(false);
     });
-    return it("should parse an element", function() {
-      return expect(true).toBe(true);
+    it("should accepts a 5 element array as a card", function() {
+      var card;
+      card = new Card(['Pulpo', 'Petalo', '> Oir', 'Lourdes', 'Pavimento']);
+      expect(card.personal.content).toBe("Pulpo");
+      expect(card.personal.playAll).toBe(false);
+      expect(card.objeto.content).toBe("Petalo");
+      expect(card.objeto.playAll).toBe(false);
+      expect(card.accion.content).toBe("Oir");
+      expect(card.accion.playAll).toBe(true);
+      expect(card.dificil.content).toBe("Lourdes");
+      expect(card.dificil.playAll).toBe(false);
+      expect(card.todos.content).toBe("Pavimento");
+      return expect(card.todos.playAll).toBe(false);
+    });
+    return xit("should not insert an array with more or less elements", function() {
+      expect(new Card(['Pulpo', 'Petalo', '> Oir', 'Lourdes'])).toThrow();
+      return expect(new Card(['Pulpo', 'Petalo', '> Oir', 'Lourdes', 'Pavimento', ''])).toThrow();
+    });
+  });
+
+  describe("Ajax", function() {
+    return it("should make get requests", function() {
+      var aj;
+      aj = new Ajax();
+      return aj.get('../public/textDocToTest.txt', (function(_this) {
+        return function(data) {
+          return expect(data).toBe('hola');
+        };
+      })(this));
     });
   });
 
