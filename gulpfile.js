@@ -28,8 +28,8 @@ gulp.task('htmlpage', function() {
     .pipe(gulp.dest(htmlDst));
 });
 
-gulp.task('docco'function () {
-  gulp.src('./public/js')
+gulp.task('docco',function () {
+  gulp.src('./public/js/*.js')
     .pipe(docco())
     .pipe(gulp.dest('./docs'));
 })
@@ -89,7 +89,7 @@ gulp.task('watch', function () {
   // Activa el live-reload server
   startLiveReload();
 
-  var coffeeWatcher = gulp.watch('src/coffee/*.coffee', ['coffee']);
+  var coffeeWatcher = gulp.watch('src/coffee/*.coffee', ['coffee','docco']);
   coffeeWatcher.on('change', function(event) {
     console.log('File '+event.path+' was '+event.type+', running "coffee" tasks...');
     // Notifica el cambio en algun archivo
